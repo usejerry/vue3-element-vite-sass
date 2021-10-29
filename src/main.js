@@ -4,5 +4,10 @@ import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
+import highcharts from 'highcharts'
+
+import highcharts3d from 'highcharts/highcharts-3d'
+
+highcharts3d(highcharts)
 
 createApp(App).use(router).use(store).use(ElementPlus).mount('#app')

@@ -13,6 +13,7 @@ import { useRouter } from 'vue-router'
     let ruoterData = computed(() => {
        return store.state.ruoterData.data
     })
+    console.log(ruoterData)
     function colseTag(tag,index){
     //   ruoterData.splice(index,1)
       store.state.ruoterData.data.splice(index,1)

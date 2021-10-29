@@ -6,6 +6,9 @@ export default {
     upDateRuoterData2(state,data){
         state.ruoterData.path = data
     },
+    upcolorG(state,data){
+        state.colorG= data
+    },
     upSa(state,data){
         state.sa= data
     }

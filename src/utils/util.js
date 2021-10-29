@@ -607,6 +607,19 @@ export function getIdData(key,data,gokey){
   })
   return ss
 }
+export function checkData(arr,id,text){
+  if(!isArray(arr)){
+    return
+  }
+  let fa = true
+  arr.forEach(item => {
+    if(item[id]== text){
+      fa = false
+    }
+  })
+  return fa 
+}
+
 export  function  treeFlat(Node) {
       let _arr = [];
 

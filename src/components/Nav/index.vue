@@ -1,7 +1,7 @@
 <template>
 <el-menu
         active-text-color="#ffd04b"
-        background-color="#545c64"
+        :background-color="color"
         class="el-menu-vertical-demo home_nav"
         :default-active="active_nav.text"
         text-color="#fff"
@@ -20,33 +20,14 @@
 import { defineComponent ,toRefs,computed,watch, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
+import {checkData} from "../../utils/util.js"
 export default defineComponent({
     name:'Nav',
   setup(props,{ emit }) {
+    
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    let nowRouter = computed(()=>{
-      console.log(store.state.ruoterData.path,2222)
-      return store.state.ruoterData.path
-    })
-    
-    function navSelect(index,indexPath,item){
-      selectData =  store.state.ruoterData.data
-      if(item.route&&selectData.indexOf(item.route)<0){
-          selectData.push(item.route)
-          store.commit('upDateRuoterData',selectData)
-      }
-      router.push(item.route.url)
-    }
-    let selectData =  store.state.ruoterData.data
-    let active_nav =reactive({text:"dashboard"})
     let state={
         navData:[
           {
@@ -72,14 +53,39 @@ export default defineComponent({
           }
         ],
     }
+    let color =computed(()=>store.state.colorG)
+    let active_nav =reactive({text:"dashboard"})
+    initMenut()
+
+    let nowRouter = computed(()=>{
+      return store.state.ruoterData.path
+    })
+    function initMenut(){
+      state.navData.forEach(item => {
+        if(route.path.indexOf(item.router.url)>=0){
+          store.commit('upDateRuoterData',[item.router])
+          active_nav.text = route.path.substr(1)
+        }
+      })
+    }
+    // 选择菜单
+    function navSelect(index,indexPath,item){
+      selectData =  store.state.ruoterData.data
+      if(item.route&&checkData(selectData,'name',item.route.name)){
+          selectData.push(item.route)
+          store.commit('upDateRuoterData',selectData)
+      }
+      router.push(item.route.url)
+    }
+    let selectData =  store.state.ruoterData.data
+    
+
     watch(()=>route.path,(path,prevpath)=>{
-      console.log(path.substr(1))
       active_nav.text = path.substr(1)
     })
+
     return {
       ...toRefs(state),
-      handleOpen,
-      handleClose,
       navSelect,
       active_nav,
       selectData

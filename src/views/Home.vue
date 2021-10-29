@@ -2,6 +2,9 @@
     <div class="home_wrapper">
         <div class="nav_box">
             <Nav @selectData="selectData"></Nav>
+            <div class="picker">
+              <el-color-picker v-model="color" class="picker" @active-change="change"/>
+            </div>
         </div>
         <div class="right_box">
           <div class="right_top">
@@ -22,7 +25,7 @@
 import Nav from '../components/Nav/index.vue'
 import TagRouter from '../components/TagRouter/index.vue'
 // import {deleteA} from '../utils/utils.js'
-import {toRefs,reactive} from 'vue'
+import {toRefs,reactive,computed,ref} from 'vue'
 import { useStore } from 'vuex'
 export default {
   name: 'Home',
@@ -41,18 +44,26 @@ export default {
       // state.tags = reactive(data)
       console.log(state.tags)
     }
+    let color = ref('#ffffff')
+    // let color =computed(()=>store.state.colorG)
     let state  =reactive({
       tags:[]
     })
     function colseTag(tag,index){
       state.tags.splice(index,1)
+      
       // console.log(state.tags.splice(index,1))
 
+    }
+    function change(value){
+      store.commit('upcolorG',value)
     }
     return {
       ...toRefs(state),
       selectData,
-      colseTag
+      colseTag,
+      color,
+      change
     } 
   },
   // methods: {
@@ -73,6 +84,7 @@ export default {
     width: 200px;
     height:100%;
     float: left;
+    position: relative;
   }
   .right_box{
     margin-left: 200px;
@@ -120,4 +132,10 @@ export default {
     }
   }
 }
+    .picker{
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 </style>

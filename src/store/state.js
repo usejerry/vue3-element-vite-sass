@@ -1,4 +1,5 @@
 export default {
     ruoterData:{data:[],path:''},
-    sa:0
+    sa:0,
+    colorG:'ffffff'
 }
