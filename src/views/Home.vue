@@ -1,13 +1,14 @@
 <template>
     <div class="home_wrapper">
+        <Weather></Weather> 
         <div class="nav_box">
             <Nav @selectData="selectData"></Nav>
             <div class="picker">
-              <el-color-picker v-model="color" class="picker" @active-change="change"/>
+              <el-color-picker v-model="color" class="picker" @change="change"/>
             </div>
         </div>
         <div class="right_box">
-          <div class="right_top">
+          <div class="right_top" :style="{'background-color': color}">
             <TagRouter></TagRouter>
             <div class="weather_box">
                <iframe width="400" scrolling="no" height="60" frameborder="0" allowtransparency="true" src="https://i.tianqi.com?c=code&id=35&color=%23000000&icon=4&site=34"></iframe>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import Weather from '../components/Weather/index.vue'
 import Nav from '../components/Nav/index.vue'
 import TagRouter from '../components/TagRouter/index.vue'
 // import {deleteA} from '../utils/utils.js'
@@ -31,7 +33,8 @@ export default {
   name: 'Home',
   components: {
     Nav,
-    TagRouter
+    TagRouter,
+    Weather
   },
   setup(props,) {
     const store = useStore()
@@ -57,6 +60,7 @@ export default {
     }
     function change(value){
       store.commit('upcolorG',value)
+      console.log(store.state.colorG)
     }
     return {
       ...toRefs(state),

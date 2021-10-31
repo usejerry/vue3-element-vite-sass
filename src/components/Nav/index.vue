@@ -6,10 +6,8 @@
         :default-active="active_nav.text"
         text-color="#fff"
         @select="navSelect"
-        @open="handleOpen"
-        @close="handleClose"
       >
-        <el-menu-item v-for="item in navData" :index="item.value" :route="item.router" :disabled="item.type=='disabled'">
+        <el-menu-item v-for="item in navData" :index="item.value" :key="item.value" :route="item.router" :disabled="item.type=='disabled'">
           <i :class="item.icon"></i>
           <span>{{item.name}}</span>
         </el-menu-item>
@@ -88,7 +86,8 @@ export default defineComponent({
       ...toRefs(state),
       navSelect,
       active_nav,
-      selectData
+      selectData,
+      color
     }
   },
 })
