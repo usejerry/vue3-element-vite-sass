@@ -1,9 +1,8 @@
 import axios from 'axios' // 引入axios
-import './interceptors'
 
 // import {getUrlParam} from './util.js'
 axios.defaults.withCredentials = true; 
-axios.defaults.baseURL = getBaseUrl()
+// axios.defaults.baseURL = getBaseUrl()
 axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'; //传文件设置请求头
 /**
@@ -44,6 +43,41 @@ export function getCancelToken(){
 //   }).then(res => res.data)
 // }
 
+function jsonp() {
+  axios.jsonp = (url,data)=>{
+if(!url)
+    throw new Error('url is necessary')
+const callback = 'CALLBACK' + Math.random().toString().substr(9,18)
+const JSONP = document.createElement('script')
+      JSONP.setAttribute('type','text/javascript')
+
+const headEle = document.getElementsByTagName('head')[0]
+
+let ret = '';
+if(data){
+    if(typeof data === 'string')
+        ret = '&' + data;
+    else if(typeof data === 'object') {
+        for(let key in data)
+            ret += '&' + key + '=' + encodeURIComponent(data[key]);
+    }
+    ret += '&_time=' + Date.now();
+}
+JSONP.src = `${url}?callback=${callback}${ret}`;
+return new Promise( (resolve) => {
+    window[callback] = r => {
+      resolve(r)
+      headEle.removeChild(JSONP)
+      delete window[callback]
+    }
+    headEle.appendChild(JSONP)
+})
+
+}
+}
+
+jsonp()
+
 /**
  * delete 方法，delete
  * @param {String} url [请求的url地址]
@@ -65,12 +99,31 @@ export function DELETE({ url, params }) {
 }
 
 /**
+ * JSONP JSONP
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+ export function JSONP({ url, params }) {
+  return new Promise((resolve, reject) => {
+    axios
+      .jsonp(url, params)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err.data)
+      })
+  })
+}
+
+
+/**
  * get方法，对应get请求
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
 export function GET({ url, params }) {
-  axios.defaults.baseURL = getBaseUrl()
+  // axios.defaults.baseURL = getBaseUrl()
   return new Promise((resolve, reject) => {
     axios
       .get(url, {

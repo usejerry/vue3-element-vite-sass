@@ -1,6 +1,6 @@
 <template>
     <div class="home_wrapper">
-        <Weather></Weather> 
+        <!-- <Weather></Weather>  -->
         <div class="nav_box">
             <Nav @selectData="selectData"></Nav>
             <div class="picker">

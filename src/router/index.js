@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-
+import Weather from '@/components/Weather/index.vue'
 const routes = [
 	{
 		path: '/',
@@ -33,6 +33,11 @@ const routes = [
 					),
 			},
 		]
+	},
+	{
+		path:'/weather',
+		name:'weather',
+		component:Weather
 	}
 ]
 
