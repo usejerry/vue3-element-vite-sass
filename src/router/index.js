@@ -32,6 +32,18 @@ const routes = [
 						'../views/Setting.vue'
 					),
 			},
+			{
+				path: '/threeD',
+				name: 'threeD',
+				meta: {
+					title: '3D',
+				},
+				component: () =>
+					import(
+						/* webpackChunkName: "dashboard" */
+						'../views/ThreeD.vue'
+					),
+			},
 		]
 	},
 	{

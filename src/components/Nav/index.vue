@@ -44,6 +44,13 @@ export default defineComponent({
           },
           {
             icon:"el-icon-menu",
+            value:"threeD",
+            name:"3D",
+            router:{name:"3D",url:"/threeD"},
+            type:'show'
+          },
+          {
+            icon:"el-icon-menu",
             value:"approval",
             name:"审批",
             router:{name:"审批",url:"/approval"},

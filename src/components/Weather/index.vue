@@ -7,13 +7,18 @@
 
 <script setup>
 // import axios from "axios"; // 引入axios
-import '@/lib/pixi.min.js'
+import sun_cen from './imgs/sun_cen.png'
+import sun_light from './imgs/sun_light.png'
+import cloud from './imgs/cloud.png'
+
+import * as PIXI from 'pixi.js'
 import {getWeather} from "@/api/index.js"
 import {toRefs,reactive,onMounted} from 'vue'
     let state ={
         pixiApp:null,
         container:null,
-        weather_box:null
+        weather_box:null,
+        spritesData:{},
     }
     // 初始化
     function initW(){
@@ -35,7 +40,9 @@ import {toRefs,reactive,onMounted} from 'vue'
     function img_sources(){
 
         let imgs = [
-            { name: 'sun', url: import.meta.glob('../../assets/img/sun.png') },
+            { name: 'sun_cen', url: sun_cen},
+            { name: 'sun_light', url: sun_light},
+            { name: 'cloud', url: cloud},
         ]
         state.pixiApp.loader.add(imgs)
         app_loader()
@@ -45,17 +52,36 @@ import {toRefs,reactive,onMounted} from 'vue'
     function app_loader(){
         state.pixiApp.loader.load((data) => {
             let texturesData ={
-                sun: PIXI.Texture.from('sun')
+                sun_cen: PIXI.Texture.from('sun_cen'),
+                sun_light: PIXI.Texture.from('sun_light'),
+                cloud: PIXI.Texture.from('cloud')
+
             }
-            let spritesData ={
-                sun:new PIXI.Sprite(texturesData.sun),
+            state.spritesData = {
+                sun_cen:new PIXI.Sprite(texturesData.sun_cen),
+                sun_light:new PIXI.Sprite(texturesData.sun_light),
+                cloud:new PIXI.Sprite(texturesData.cloud),
+
             }
-            console.log(spritesData.sun)
-            spritesData.sun.width = 481
-            spritesData.sun.width = 496
-            spritesData.sun.x = 10
-            spritesData.sun.y = 10
-            state.container.addChild(spritesData.sun)
+            state.spritesData.sun_cen.width = 481
+            state.spritesData.sun_cen.height = 496
+            state.spritesData.sun_cen.x = state.weather_box.offsetWidth-481/2
+            state.spritesData.sun_cen.y = 496/2
+            state.spritesData.sun_cen.anchor.set(0.5, 0.5)
+            state.container.addChild(state.spritesData.sun_cen)
+            state.spritesData.sun_light.width = 481
+            state.spritesData.sun_light.height = 496
+            state.spritesData.sun_light.x = state.weather_box.offsetWidth-481/2
+            state.spritesData.sun_light.y = 496/2
+            state.spritesData.sun_light.anchor.set(0.5, 0.5)
+            state.container.addChild(state.spritesData.sun_light)
+
+            state.spritesData.cloud.width = 495
+            state.spritesData.cloud.height = 302
+            state.spritesData.cloud.x = state.weather_box.offsetWidth-495/2
+            state.spritesData.cloud.y = 345
+            state.spritesData.cloud.anchor.set(0.5, 0.5)
+            state.container.addChild(state.spritesData.cloud)            
             w_load()
         })
     }
@@ -63,6 +89,13 @@ import {toRefs,reactive,onMounted} from 'vue'
     function w_load(){
         state.pixiApp.stage.addChild(state.container)
         state.weather_box.appendChild(state.pixiApp.view)
+        goPlay()
+    }
+    function goPlay(){
+        state.pixiApp.ticker.add((delta) => {
+            // console.log(delta)
+            state.spritesData.sun_light.rotation += 0.005 * delta
+        })
     }
     function weather(cityName){
         getWeather({unescape:'1',version:'v6',city:cityName,appid:'54149728',appsecret:'u4DdBMhI'}).then(data =>{

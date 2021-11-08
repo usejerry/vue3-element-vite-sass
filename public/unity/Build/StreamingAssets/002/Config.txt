@@ -1,0 +1,10 @@
+{
+    "name":"002-Unity 3D Demo",
+    "describe":"一个简单的Unity学习项目，封装了一下简单、通用功能组件，项目适用于数据可视化",
+    "author":"zzz",
+    "blogs":"http://localhost:8080/",
+    "github":"http://localhost:8080/",
+    "gitee":"http://localhost:8080/",
+    "QQqun":"---",
+    "serviceUrl":"http://localhost:8080/"
+}

@@ -11,11 +11,13 @@
     "echarts": "^5.2.1",
     "element-plus": "^1.0.2-beta.44",
     "highcharts": "^9.3.0",
+    "pixi.js": "^6.2.0",
     "vue": "^3.2.5",
     "vue-cropperjs": "^5.0.0",
     "vue-highcharts": "^0.2.0",
     "vue-loader-v16": "^16.0.0-beta.5.4",
     "vue-router": "^4.0.8",
+    "vue-unity-webgl": "^1.2.0",
     "vuex": "~4.0.0"
   },
   "devDependencies": {
