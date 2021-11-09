@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Weather from '@/components/Weather/index.vue'
+import Weather from '@/components/Weather2/index.vue'
 const routes = [
 	{
 		path: '/',
